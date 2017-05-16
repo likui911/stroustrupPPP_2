@@ -1,6 +1,8 @@
 /*
- Add the article the to the “English” grammar in §6.4.1, so that it can describe sentences such as 
+ Add the article the to the “English” grammar in §6.4.1, 
+ so that it can describe sentences such as 
  “The birds fly but the fish swim.”
+ 
 English Grammar
 sentence:
     noun verb
@@ -19,26 +21,71 @@ verb:
     "swin"
 */
 
-/*
-    思路
-    首先获取sentence判断是否满足noun verb
-    然后判断下一个字符是不是. 如果是，那么这个就是一个正常的语法
-        如果不是，判断是否为conj，如果是，再获取sentence
-    get_sentence // noun verb
-    get_conj
-
-
-
-*/
-
 #include "../std_lib_facilities.h"
-void sentence()
+
+bool noun()
 {
-    //test git push
+    string s;
+    cin >> s;
+    if (s == "birds" || s == "fish" || s == "C++")
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool verb()
+{
+    string s;
+    cin >> s;
+    if (s == "rules" || s == "fly" || s == "swin")
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool conj(const string &str)
+{
+    if (str == "and" || str == "or" || str == "but")
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+string sentence()
+{
+    if (noun() && verb())
+    {
+        string s;
+        cin >> s;
+        if (s == ".")
+        {
+            return "OK";
+        }
+        else if (conj(s))
+        {
+            return sentence();
+        }
+    }
+    return "not OK";
 }
 
 int main()
 {
-    cout<<sentence()<<endl;
+    while (cin)
+    {
+        cout << sentence() << endl;
+    }
     return 0;
 }

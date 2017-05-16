@@ -91,6 +91,7 @@
         "xloctime": "cpp",
         "regex": "cpp",
         "system_error": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "exception": "cpp"
     }
 }
