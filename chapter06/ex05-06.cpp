@@ -15,6 +15,8 @@ noun:
     "birds"
     "fish"
     "C++"
+    "The" noun
+    "the" noun
 verb:
     "rules"
     "fly"
@@ -27,6 +29,12 @@ bool noun()
 {
     string s;
     cin >> s;
+
+    if (s == "the" || s == "The")
+    {
+        cin >> s; //判断名词前面是否有the
+    }
+
     if (s == "birds" || s == "fish" || s == "C++")
     {
         return true;
