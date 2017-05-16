@@ -1,0 +1,96 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    // C/C++ Configuration
+
+    // The full path of the clang-format executable.
+    "C_Cpp.clang_format_path": null,
+
+    // Coding style, currently supports: Visual Studio, LLVM, Google, Chromium, Mozilla, WebKit. Use "file" to load the style from a .clang-format file in the current or parent directory. Use "{key: value, ...}" to set specific parameters, e.g.: "{ BasedOnStyle: LLVM, IndentWidth: 8 }"
+    "C_Cpp.clang_format_style": "Visual Studio",
+
+    // Name of the predefined style used as a fallback in case clang-format is invoked with style "file" but the .clang-format file is not found. Possible values are Visual Studio, LLVM, Google, Chromium, Mozilla, WebKit, or none.
+    "C_Cpp.clang_format_fallbackStyle": "Visual Studio",
+
+    // If set, overrides the include sorting behavior determined by the SortIncludes parameter.
+    "C_Cpp.clang_format_sortIncludes": false,
+
+    // Enable clang-format on save.
+    "C_Cpp.clang_format_formatOnSave": false,
+
+    // Controls auto completion for C/C++ code. 'Default' uses an experimental recursive directory tag parser (as of right now). 'Disabled' uses the word based completion provided by Visual Studio Code.
+    "C_Cpp.autocomplete": "Default",
+
+
+// Clang configulation
+
+    // Clang command or the path to the Clang executable
+    "clang.executable": "clang",
+
+    // Compiler options for C (e.g. ['-std=c99'])
+    "clang.cflags": [],
+
+    // Compiler options for C++ (e.g. ['-std=c++11'])
+    "clang.cxxflags": ["-std=c++11"],
+
+    // Compiler options for Objective-C
+    "clang.objcflags": [],
+
+    // Enable diagnostic
+    "clang.diagnostic.enable": true,
+
+    // The delay after which diagnostic starts (in millisecond)
+    "clang.diagnostic.delay": 500,
+
+    // Tolerable size of the clang output for diagnostic
+    "clang.diagnostic.maxBuffer": 262144,
+
+    // Enable completion
+    "clang.completion.enable": true,
+
+    // Tolerable size of the clang output for completion
+    "clang.completion.maxBuffer": 8388608,
+
+    // Trigger completion when the user types one of the characters
+    "clang.completion.triggerChars": [
+        ".",
+        ":",
+        ">"
+    ],
+
+    // Complete macros
+    "clang.completion.completeMacros": true,
+    "files.associations": {
+        "xlocale": "cpp",
+        "*h*h*h*hxutility": "cpp",
+        "xmemory0": "cpp",
+        "iostream": "cpp",
+        "string": "cpp",
+        "fstream": "cpp",
+        "sstream": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp",
+        "vector": "cpp",
+        "ostream": "cpp",
+        "iterator": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "forward_list": "cpp",
+        "algorithm": "cpp",
+        "iosfwd": "cpp",
+        "xiosbase": "cpp",
+        "memory": "cpp",
+        "functional": "cpp",
+        "istream": "cpp",
+        "xlocmes": "cpp",
+        "array": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "xlocmon": "cpp",
+        "xlocnum": "cpp",
+        "xloctime": "cpp",
+        "regex": "cpp",
+        "system_error": "cpp",
+        "ios": "cpp"
+    }
+}
