@@ -93,6 +93,7 @@
         "system_error": "cpp",
         "ios": "cpp",
         "exception": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "stdexcept": "cpp"
     }
 }
