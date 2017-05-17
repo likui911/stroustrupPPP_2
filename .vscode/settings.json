@@ -92,6 +92,7 @@
         "regex": "cpp",
         "system_error": "cpp",
         "ios": "cpp",
-        "exception": "cpp"
+        "exception": "cpp",
+        "random": "cpp"
     }
 }
