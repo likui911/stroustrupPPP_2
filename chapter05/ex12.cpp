@@ -33,13 +33,9 @@ int main()
                 if (vec_guess[j] == vec_i[i])
                 {
                     if (i == j)
-                    {
                         ++bull;
-                    }
                     else
-                    {
                         ++cow;
-                    }
                 }
             }
         }
