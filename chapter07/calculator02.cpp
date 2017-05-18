@@ -1,10 +1,44 @@
 
 /*
-	calculator08buggy.cpp
-
-	Helpful comments removed.
-
-	We have inserted 3 bugs that the compiler will catch and 3 that it won't.
+*Caculator Parser
+*
+*	caculation
+*		statement
+*		print
+*		quit
+*		caculation statement
+*
+*	print
+*		;
+*
+*	quit
+*		q
+*	
+*	Statement
+*		declaration
+*		expression
+*
+*	declaration
+*		"let" Name "=" Expression
+*
+*	expression
+*		term
+*		expression + term
+*		expression - term
+*
+*	term
+*		primary
+*		term * primary
+*		term / primary
+*
+*	primary
+*		number
+*		"-" primary
+*		"+" primary
+*		"("expression")"
+*
+*	number
+*		float-pointing-literal
 */
 
 #include "../std_lib_facilities.h"
@@ -16,6 +50,7 @@ struct Token
 	string name;
 	Token(char ch) : kind(ch), value(0) {}
 	Token(char ch, double val) : kind(ch), value(val) {}
+	Token(char ch, string str) : kind(ch), name(str) {}
 };
 
 class Token_stream
@@ -84,14 +119,14 @@ Token Token_stream::get()
 		if (isalpha(ch))
 		{
 			string s;
-			s += ch;
+			s = ch;
 			while (cin.get(ch) && (isalpha(ch) || isdigit(ch)))
-				s = ch;
+				s += ch;
 			cin.unget();
 			if (s == "let")
-				return Token(let);
-			if (s == "quit")
-				return Token(name);
+				return Token(let); //detect the let symbol
+			// get the variable
+			return Token(name, s);
 		}
 		error("Bad token");
 	}
@@ -162,7 +197,8 @@ double primary()
 		double d = expression();
 		t = ts.get();
 		if (t.kind != ')')
-			error("'(' expected");
+			error("')' expected");
+		return d;
 	}
 	case '-':
 		return -primary();
@@ -192,6 +228,15 @@ double term()
 			if (d == 0)
 				error("divide by zero");
 			left /= d;
+			break;
+		}
+		case '%':
+		{
+			double d = primary();
+			if (d == 0)
+				error("Divide by zero");
+			// using fmod to evaluate float module
+			left = fmod(left, d);
 			break;
 		}
 		default:
@@ -225,7 +270,7 @@ double expression()
 double declaration()
 {
 	Token t = ts.get();
-	if (t.kind != 'a')
+	if (t.kind != name)
 		error("name expected in declaration");
 	string name = t.name;
 	if (is_declared(name))
@@ -280,26 +325,39 @@ void calculate()
 		}
 }
 
+void define_name(string name, double value)
+{
+	if (is_declared(name))
+		error(name, " declared twice");
+	names.push_back(Variable(name, value));
+}
+
 int main()
+{
 
 	try
-{
-	calculate();
-	return 0;
-}
-catch (exception &e)
-{
-	cerr << "exception: " << e.what() << endl;
-	char c;
-	while (cin >> c && c != ';')
-		;
-	return 1;
-}
-catch (...)
-{
-	cerr << "exception\n";
-	char c;
-	while (cin >> c && c != ';')
-		;
-	return 2;
+	{
+		//predifine names;
+		define_name("pi", 3.1415926535);
+		define_name("e", 2.7182818284);
+
+		calculate();
+		return 0;
+	}
+	catch (exception &e)
+	{
+		cerr << "exception: " << e.what() << endl;
+		char c;
+		while (cin >> c && c != ';')
+			;
+		return 1;
+	}
+	catch (...)
+	{
+		cerr << "exception\n";
+		char c;
+		while (cin >> c && c != ';')
+			;
+		return 2;
+	}
 }
