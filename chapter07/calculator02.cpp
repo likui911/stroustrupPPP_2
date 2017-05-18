@@ -92,7 +92,6 @@ Token Token_stream::get()
 				return Token(let);
 			if (s == "quit")
 				return Token(name);
-			return Token(name, s);
 		}
 		error("Bad token");
 	}
