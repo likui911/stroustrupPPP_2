@@ -36,6 +36,7 @@
 *		"-" primary
 *		"+" primary
 *		"("expression")"
+*		sqrt "("expression")"
 *
 *	number
 *		float-pointing-literal
@@ -71,11 +72,12 @@ class Token_stream
 	void ignore(char);
 };
 
-const char let = 'L';
-const char quit = 'Q';
-const char print = ';';
-const char number = '8';
-const char name = 'a';
+const char LET = 'L';
+const char QUIT = 'Q';
+const char PRINT = ';';
+const char NUMBER = '8';
+const char NAME = 'a';
+const char SQRT = 's';
 
 Token Token_stream::get()
 {
@@ -113,7 +115,7 @@ Token Token_stream::get()
 		cin.unget();
 		double val;
 		cin >> val;
-		return Token(number, val);
+		return Token(NUMBER, val);
 	}
 	default:
 		if (isalpha(ch))
@@ -123,10 +125,14 @@ Token Token_stream::get()
 			while (cin.get(ch) && (isalpha(ch) || isdigit(ch)))
 				s += ch;
 			cin.unget();
+			// detect sqrt symbol
+			if (s == "sqrt")
+				return Token(SQRT);
+			//detect the let symbol
 			if (s == "let")
-				return Token(let); //detect the let symbol
+				return Token(LET);
 			// get the variable
-			return Token(name, s);
+			return Token(NAME, s);
 		}
 		error("Bad token");
 	}
@@ -142,7 +148,7 @@ void Token_stream::ignore(char c)
 	full = false;
 
 	char ch;
-	if (!cin)//if cin's state is not io_base::good ,clear it.
+	if (!cin) //if cin's state is not io_base::good ,clear it.
 		cin.clear();
 	while (cin >> ch)
 		if (ch == c)
@@ -194,6 +200,19 @@ double primary()
 	Token t = ts.get();
 	switch (t.kind)
 	{
+	case SQRT:
+	{
+		t = ts.get();
+		if (t.kind != '(')
+			error("'(' expected");
+		double d = expression();
+		if(d<0)
+			error("sqrt below zero");
+		t = ts.get();
+		if (t.kind != ')')
+			error("')' expected");
+		return sqrt(d);
+	}
 	case '(':
 	{
 		double d = expression();
@@ -204,9 +223,9 @@ double primary()
 	}
 	case '-':
 		return -primary();
-	case number:
+	case NUMBER:
 		return t.value;
-	case name:
+	case NAME:
 		return get_value(t.name);
 	default:
 		error("primary expected");
@@ -272,7 +291,7 @@ double expression()
 double declaration()
 {
 	Token t = ts.get();
-	if (t.kind != name)
+	if (t.kind != NAME)
 		error("name expected in declaration");
 	string name = t.name;
 	if (is_declared(name))
@@ -290,7 +309,7 @@ double statement()
 	Token t = ts.get();
 	switch (t.kind)
 	{
-	case let:
+	case LET:
 		return declaration();
 	default:
 		ts.unget(t);
@@ -300,7 +319,7 @@ double statement()
 
 void clean_up_mess()
 {
-	ts.ignore(print);
+	ts.ignore(PRINT);
 }
 
 const string prompt = "> ";
@@ -313,9 +332,9 @@ void calculate()
 		{
 			cout << prompt;
 			Token t = ts.get();
-			while (t.kind == print)
+			while (t.kind == PRINT)
 				t = ts.get();
-			if (t.kind == quit)
+			if (t.kind == QUIT)
 				return;
 			ts.unget(t);
 			cout << result << statement() << endl;
@@ -336,13 +355,14 @@ void define_name(string name, double value)
 
 int main()
 {
-
 	try
 	{
 		//predifine names;
 		define_name("pi", 3.1415926535);
 		define_name("e", 2.7182818284);
+		define_name("k", 1000);
 
+		// do calculation
 		calculate();
 		return 0;
 	}
