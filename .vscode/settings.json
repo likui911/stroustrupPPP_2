@@ -94,6 +94,7 @@
         "ios": "cpp",
         "exception": "cpp",
         "random": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "locale": "cpp"
     }
 }

@@ -142,6 +142,8 @@ void Token_stream::ignore(char c)
 	full = false;
 
 	char ch;
+	if (!cin)//if cin's state is not io_base::good ,clear it.
+		cin.clear();
 	while (cin >> ch)
 		if (ch == c)
 			return;
