@@ -12,7 +12,7 @@
 *		;
 *
 *	quit
-*		q
+*		exit
 *	
 *	Statement
 *		declaration
@@ -134,6 +134,8 @@ Token Token_stream::get()
 			// detect pow symbol
 			if (s == "pow")
 				return Token(POW);
+			if(s=="exit")
+				return Token(QUIT);
 			// get the variable
 			return Token(NAME, s);
 		}
