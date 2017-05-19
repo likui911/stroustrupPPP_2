@@ -73,7 +73,6 @@ class Token_stream
 	void ignore(char);
 };
 
-const char LET = 'L';
 const char QUIT = 'Q';
 const char PRINT = ';';
 const char NUMBER = '8';
@@ -102,6 +101,7 @@ Token Token_stream::get()
 	case ';':
 	case '=':
 	case ',':
+	case '#':
 		return Token(ch);
 	case '.':
 	case '0':
@@ -134,9 +134,6 @@ Token Token_stream::get()
 			// detect pow symbol
 			if (s == "pow")
 				return Token(POW);
-			//detect the let symbol
-			if (s == "let")
-				return Token(LET);
 			// get the variable
 			return Token(NAME, s);
 		}
@@ -330,7 +327,7 @@ double statement()
 	Token t = ts.get();
 	switch (t.kind)
 	{
-	case LET:
+	case '#':
 		return declaration();
 	default:
 		ts.unget(t);
