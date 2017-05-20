@@ -118,7 +118,15 @@ Token Token_stream::get()
 		cin.unget();
 		double val;
 		cin >> val;
+<<<<<<< HEAD
 		return Token(NUMBER, val);
+=======
+		if (cin.good())
+		{
+			cout << "";
+		}
+		return Token(number, val);
+>>>>>>> 833c88356911a345014dfed98a7ab250109cf716
 	}
 	default:
 		if (isalpha(ch))
@@ -139,7 +147,8 @@ Token Token_stream::get()
 			// get the variable
 			return Token(NAME, s);
 		}
-		error("Bad token");
+		else
+			error("Bad token");
 	}
 }
 
@@ -153,11 +162,22 @@ void Token_stream::ignore(char c)
 	full = false;
 
 	char ch;
+<<<<<<< HEAD
 	if (!cin) //if cin's state is not io_base::good ,clear it.
 		cin.clear();
 	while (cin >> ch)
 		if (ch == c)
+=======
+	if (!cin.good())
+	{
+		cin.clear();
+	}
+	while (cin>>ch)
+	{
+		if (ch == c||ch=='\n')
+>>>>>>> 833c88356911a345014dfed98a7ab250109cf716
 			return;
+	}
 }
 
 struct Variable
