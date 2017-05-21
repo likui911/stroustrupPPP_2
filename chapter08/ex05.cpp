@@ -21,7 +21,7 @@ vector<int> reverse_1(const vector<int> &vec)
 
 void reverse_2(vector<int> &vec)
 {
-    for (int i = 0; i < vec.size() / 2 - 1; ++i)
+    for (int i = 0; i < vec.size() / 2; ++i)
     {
         int temp = vec[i];
         vec[i] = vec[vec.size() - i - 1];
@@ -31,7 +31,7 @@ void reverse_2(vector<int> &vec)
 
 int main()
 {
-    vector<int> vec{1, 2, 3, 4, 5, 6, 7, 8};
+    vector<int> vec{1, 2, 3, 4};
     vector<int> rvs_v=reverse_1(vec);
     cout<<"-----reverse_1---------"<<endl;
     for (int i : rvs_v)
