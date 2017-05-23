@@ -174,6 +174,7 @@ bool is_date(int y, Month m, int d)
     return true;
 }
 
+// https://en.wikipedia.org/wiki/Leap_year#Algorithm
 bool leapyear(int y)
 {
     if (y % 4 != 0)
@@ -184,30 +185,74 @@ bool leapyear(int y)
         return false;
     return true;
 }
-
-enum class Day
+bool operator==(const Date &a, const Date &b)
 {
-    sun, //sunday
-    mon, //monday
-    tue, //tuesday
-    wed, //wednesday
-    thu, // thursday
-    fri, //friday
-    sat  //saturday
-};
+    return a.year() == b.year() && a.month() == b.month() && a.day() == b.day();
+}
 
-Day day_of_week(const Date &d)
+bool operator!=(const Date &a, const Date &b)
 {
-    // 这一天是周几
+    return !(a == b);
+}
+
+ostream &operator<<(ostream &os, const Date &d)
+{
+    return os << '(' << d.year()
+              << ',' << (int)d.month()
+              << ',' << d.day() << ')';
+}
+
+ostream &operator<<(ostream &os, const Day &d)
+{
+    vector<string> weekdays{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    os << weekdays[(int)d];
+    return os;
+}
+
+// format (2017,5,23)
+istream &operator>>(istream &is, Date &d)
+{
+    int yy, mm, dd;
+    char ch1, ch2, ch3, ch4;
+    is >> ch1 >> yy >> ch2 >> mm >> ch3 >> dd >> ch4;
+    if (!is)
+        return is;
+    if (ch1 != '(' || ch2 != ',' || ch3 != ',' || ch4 != ')')
+        is.clear(ios_base::failbit);
+    d = Date{yy, Month(mm), dd};
+    return is;
+}
+
+// https://cs.uwaterloo.ca/~alopez-o/math-faq/node73.html
+Day day_of_week(const Date &date)
+{
+    int y = date.year();
+    int m = (int)date.month();
+    int d = date.day();
+    y -= m < 3;
+    int day_of_week = (y + y / 4 - y / 100 + y / 400 + "-bed=pen+mad."[m] + d) % 7;
+    return Day(day_of_week);
 }
 Date next_Sunday(const Date &d)
 {
-    // 下一个周日
+    Date d1 = d;
+    while (day_of_week(d1) != Day::sun)
+    {
+        d1.add_day(1);
+    }
+    return d1;
 }
 
 Date next_weekday(const Date &d)
 {
-    //下一个工作日
+    Date d1 = d;
+    if (day_of_week(d1) == Day::sat)
+        d1.add_day(2);
+    else if (day_of_week(d1) == Day::fri)
+        d1.add_day(3);
+    else
+        d1.add_day(1);
+    return d1;
 }
 }
 
@@ -216,9 +261,16 @@ int main()
     using namespace Chrono;
     try
     {
-        Date d{2007, Month::mar, 1};
-        d.add_day(-3000);
-        std::cout << d.year() << " | " << (int)d.month() << " | " << d.day() << std::endl;
+        Date d{2017, Month::may, 1};
+        d.add_day(26);
+        cout << d << endl;
+        cout << day_of_week(d) << endl;
+        Date d1 = next_Sunday(d);
+        cout << d1 << " " << day_of_week(d1) << endl;
+        Date d2 = next_weekday(d);
+        cout << d2 << " " << day_of_week(d2) << endl;
+        Date d3 = next_weekday(d2);
+        cout << d3 << " " << day_of_week(d3) << endl;
     }
     catch (InvalidDate &e)
     {

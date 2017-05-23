@@ -43,10 +43,22 @@ private:
   Month m_month;
   int m_day;
 };
+enum class Day
+{
+  sun, //sunday
+  mon, //monday
+  tue, //tuesday
+  wed, //wednesday
+  thu, // thursday
+  fri, //friday
+  sat  //saturday
+};
 bool is_date(int y, Month m, int d);
 bool leapyear(int y);
 bool operator==(const Date &a, const Date &b);
 bool operator!=(const Date &a, const Date &b);
 ostream &operator<<(ostream &os, const Date &d);
 istream &operator>>(istream &is, Date &dd);
+Day day_of_week(const Date &date);
+ostream &operator<<(ostream &os, const Day &d);
 }
