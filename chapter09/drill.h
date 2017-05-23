@@ -5,6 +5,12 @@ using std::ostream;
 
 namespace Chrono
 {
+class InvalidDate
+{
+public:
+  std::string what() { return "InValid Date Occured"; };
+};
+
 enum class Month
 {
   jan = 1, //January
@@ -20,11 +26,18 @@ enum class Month
   nov,     //November
   dec      //December
 };
-class InvalidDate
+
+enum class Day
 {
-public:
-  std::string what() { return "InValid Date Occured"; };
+  sun, //sunday
+  mon, //monday
+  tue, //tuesday
+  wed, //wednesday
+  thu, // thursday
+  fri, //friday
+  sat  //saturday
 };
+
 class Date
 {
 public:
@@ -43,16 +56,7 @@ private:
   Month m_month;
   int m_day;
 };
-enum class Day
-{
-  sun, //sunday
-  mon, //monday
-  tue, //tuesday
-  wed, //wednesday
-  thu, // thursday
-  fri, //friday
-  sat  //saturday
-};
+
 bool is_date(int y, Month m, int d);
 bool leapyear(int y);
 bool operator==(const Date &a, const Date &b);
