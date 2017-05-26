@@ -256,26 +256,26 @@ Date next_weekday(const Date &d)
 }
 }
 
-int main()
-{
-    using namespace Chrono;
-    try
-    {
-        Date d{2017, Month::may, 1};
-        d.add_day(26);
-        cout << d << endl;
-        cout << day_of_week(d) << endl;
-        Date d1 = next_Sunday(d);
-        cout << d1 << " " << day_of_week(d1) << endl;
-        Date d2 = next_weekday(d);
-        cout << d2 << " " << day_of_week(d2) << endl;
-        Date d3 = next_weekday(d2);
-        cout << d3 << " " << day_of_week(d3) << endl;
-    }
-    catch (InvalidDate &e)
-    {
-        cerr << e.what() << endl;
-        keep_window_open();
-    }
-    return 0;
-}
+// int main()
+// {
+//     using namespace Chrono;
+//     try
+//     {
+//         Date d{2017, Month::may, 1};
+//         d.add_day(26);
+//         cout << d << endl;
+//         cout << day_of_week(d) << endl;
+//         Date d1 = next_Sunday(d);
+//         cout << d1 << " " << day_of_week(d1) << endl;
+//         Date d2 = next_weekday(d);
+//         cout << d2 << " " << day_of_week(d2) << endl;
+//         Date d3 = next_weekday(d2);
+//         cout << d3 << " " << day_of_week(d3) << endl;
+//     }
+//     catch (InvalidDate &e)
+//     {
+//         cerr << e.what() << endl;
+//         keep_window_open();
+//     }
+//     return 0;
+// }
