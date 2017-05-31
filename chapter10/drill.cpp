@@ -25,6 +25,7 @@ int main()
         ofs << "(" << p.x << "," << p.y << ")" << endl;
     }
     ofs.close();
+    
     ifstream ifs{"./chapter10/mydata.txt"};
     vector<Pointer> provessed_points{};
     if (!ifs)
