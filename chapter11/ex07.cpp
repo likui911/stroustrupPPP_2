@@ -14,7 +14,7 @@ void replace_punct(string &str)
 {
     // convert to lowercase
     for (char &c : str)
-        tolower(c);
+        c = tolower(c);
 
     // replace don't with do not
     size_t found_1 = str.find("don't");
