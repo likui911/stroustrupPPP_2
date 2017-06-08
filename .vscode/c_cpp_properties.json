@@ -29,13 +29,13 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.10.25017/include"
+                "C:/mingw-w64/x86_64-w64-mingw32/include"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": "",
                 "path": [
-                    "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.10.25017/include"
+                    "C:/mingw-w64/x86_64-w64-mingw32/include"
                 ]
             }
         }
