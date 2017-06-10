@@ -95,12 +95,8 @@
         "exception": "cpp",
         "random": "cpp",
         "stdexcept": "cpp",
-<<<<<<< HEAD
         "locale": "cpp",
         "initializer_list": "cpp",
         "xhash": "cpp"
-=======
-        "locale": "cpp"
->>>>>>> 833c88356911a345014dfed98a7ab250109cf716
     }
 }
