@@ -16,7 +16,7 @@ class vector
     explicit vector(int s) : sz{s}, elem{new T[s]}, space{s}
     {
         for (int i = 0; i < sz; ++i)
-            elem[i] = 0; // elements are initialized
+            elem[i] = T{}; // elements are initialized
     }
     vector(const vector &);                  // copy constructor
     vector &operator=(const vector &);       // copy assignment
