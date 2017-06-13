@@ -1,33 +1,47 @@
-// an almost real vector of doubles:
+#include <initializer_list>
+#include <algorithm>
+
 template <typename T>
 class vector
 {
-    /*
-    invariant:
-    if 0<=n<sz, elem[n] is element n
-    sz<=space;
-    if sz<space there is space for (space–sz) doubles after elem[sz–1]
-    */
-    int sz;    // the size
-    T *elem;   // pointer to the elements (or 0)
-    int space; // number of elements plus number of free slots
   public:
-    vector() : sz{0}, elem{nullptr}, space{0} {}
-    explicit vector(int s) : sz{s}, elem{new T[s]}, space{s}
+    vector() : sz{0}, elem{nullptr}, space{0} {} //默认构造器
+    vector(std::size_t s) : sz{s}, space{sz}, elem{new T[sz]}
     {
         for (int i = 0; i < sz; ++i)
-            elem[i] = T{}; // elements are initialized
+            elem[i] = T{};
     }
-    vector(const vector &);                  // copy constructor
-    vector &operator=(const vector &);       // copy assignment
-    vector(vector &&);                       // move constructor
-    vector &operator=(vector &&);            // move assignment
-    ~vector() { delete[] elem; }             // destructor
-    T &operator[](int n) { return elem[n]; } // access: return reference
-    const T &operator[](int n) const { return elem[n]; }
-    int size() const { return sz; }
-    int capacity() const { return space; }
-    void resize(int newsize); // growth
-    void push_back(const T &d);
-    void reserve(int newalloc);
+    vector(const vector<T> &arg) //拷贝构造器
+        : sz{arg.sz}, space{arg.space}, elem{new T[sz]}
+    {
+        std::copy(arg.elem, arg.elem + arg.sz, elem);
+    }
+    vector(vector<T> &&arg) //移动构造器
+        : sz{arg.sz}, space{arg.space}, elem{arg.elem}
+    {
+        arg.elem = nullptr;
+    }
+    vector(std::initializer_list<T> lst) //初始化列表构造器
+        : sz{lst.size()}, space{sz}, elem{new T[sz]}
+    {
+        std::copy(lst.begin(), lst.end(), elem);
+    }
+    ~vector() //析构函数
+    {
+        delete[] elem;
+    }
+    vector<T> &operator=(const vector<T> &arg);
+    vector<T> &operator=(vector<T> &&arg);
+    T &operator[](int d);
+    T operator[](int d) const;
+    void reserve(size_t newalloc);
+    void resize(size_t newsize);
+    size_t capacity() { return space; }
+    size_t size() { return sz; }
+    void push_back(T d);
+
+  private:
+    std::size_t sz;    // the size
+    T *elem;           // pointer to the elements (or 0)
+    std::size_t space; // number of elements plus number of free slots
 };
