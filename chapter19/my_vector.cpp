@@ -81,7 +81,6 @@ void vector<T>::push_back(T d)
 
 int main()
 {
-
     using namespace std;
     vector<int> vec{};
     for (int i = 0; i < 100; ++i)
