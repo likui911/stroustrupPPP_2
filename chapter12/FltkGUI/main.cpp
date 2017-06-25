@@ -1,10 +1,9 @@
 #include "Simple_window.h" 
 #include "Graph.h" 
 #include "Window.h"
-
 using namespace Graph_lib;
 
-int main()
+void drill()
 {
 	Point tl{ 100,100 };
 	Simple_window win(tl, 600, 400, "Cavas #1");
@@ -35,7 +34,7 @@ int main()
 	win.set_label("Cavas #5");
 	win.wait_for_button();
 
-	Rectangle rect{ Point{200,200},100,50 };
+	Rectangle rect{ Point{ 200,200 },100,50 };
 	win.attach(rect);
 	win.set_label("Cavas #6");
 	win.wait_for_button();
@@ -51,12 +50,12 @@ int main()
 	rect.set_fill_color(Color::yellow);
 	closed_poly.set_style(Line_style(Line_style::dash, 4));
 	closed_poly.set_fill_color(Color::green);
-	poly.set_style(Line_style(Line_style::dash,4));
+	poly.set_style(Line_style(Line_style::dash, 4));
 	poly.set_color(Color::red);
 	win.set_label("Cavas #7");
 	win.wait_for_button();
 
-	Text t{ Point{150,150},"Hello, graphical world!" };
+	Text t{ Point{ 150,150 },"Hello, graphical world!" };
 	win.attach(t);
 	win.set_label("Cavas #8");
 	win.wait_for_button();
@@ -66,25 +65,25 @@ int main()
 	win.set_label("Cavas #9");
 	win.wait_for_button();
 
-	Image ii{ Point{100,50},"image.jpg" };
+	Image ii{ Point{ 100,50 },"image.jpg" };
 	win.attach(ii);
 	win.set_label("Cavas #10");
 	win.wait_for_button();
 
-	ii.move(100,200);
+	ii.move(100, 200);
 	win.set_label("Cavas #11");
 	win.wait_for_button();
 
 	Circle c{ Point{ 100,200 },50 };
 	Ellipse e{ Point{ 100,200 }, 75,25 };
 	e.set_color(Color::dark_red);
-	Mark m{ Point{ 100,200},'x' };
+	Mark m{ Point{ 100,200 },'x' };
 	ostringstream oss;
 	oss << "screen size: " << x_max() << "*" << y_max()
 		<< "; window size: " << win.x_max() << "*" << win.y_max();
 	Text sizes{ Point{ 100,20 },oss.str() };
-	Image cal{ Point{ 225,225 },"snow_cpp.jpg" }; // 320*240-pixel gif
-	cal.set_mask(Point{ 40,40 },200,150); // display center part of image
+	Image cal{ Point{ 225,225 },"snow_cpp.jpg" }; 
+	cal.set_mask(Point{ 40,40 }, 200, 150); 
 	win.attach(c);
 	win.attach(m);
 	win.attach(e);
@@ -92,7 +91,74 @@ int main()
 	win.attach(cal);
 	win.set_label("Canvas #12");
 	win.wait_for_button();
-
+}
+/*
+Draw a rectangle as a Rectangle and as a Polygon. Make the lines of the Polygon red and the lines of the Rectangle
+blue.
+*/
+void ex01()
+{
+	Simple_window win{ Point{100,100},500,400,"ex01" };
+	Polygon poly;
+	poly.add(Point{200,30});
+	poly.add(Point{ 290,100 });
+	poly.add(Point{ 240,200 });
+	poly.add(Point{ 150,300 });
+	poly.add(Point{ 100,100 });
+	poly.set_color(Color::red);
+	Rectangle rect{ Point{50,50},Point{150,200} };
+	rect.set_color(Color::blue);
+	win.attach(poly);
+	win.attach(rect);
+	win.wait_for_button();
 }
 
+/*
+Draw a 100-by-30 Rectangle and place the text “Howdy!” inside it.
+*/
+void ex02()
+{
+	Simple_window win{ Point{ 100,100 },500,400,"ex02" };
+	Rectangle rect{ Point{100,100},Point{300,300} };
+	rect.set_color(Color::black);
+	Text t{ Point{150,200},"Hello Graphics !" };
+	t.set_color(Color::red);
+	win.attach(rect);
+	win.attach(t);
+	win.wait_for_button();
+}
+
+/*
+Draw your initials 150 pixels high. Use a thick line. Draw each initial in a different color.
+My initial "L K"
+*/
+void ex03()
+{
+	Simple_window win{ Point{100,100},500,400,"Initials" };
+	Line l1{ Point{50,50},Point{50,200} };
+	l1.set_color(Color::red);
+	Line l2{ Point{50,200},Point{150,200} };
+	l2.set_color(Color::green);
+	Line l3{ Point{200,200},Point{200,50} };
+	l3.set_color(Color::blue);
+	Line l4{ Point{200,125},Point{300,50} };
+	l4.set_color(Color::dark_yellow);
+	Line l5{ Point{200,125},Point{300,200} };
+	l5.set_color(Color::dark_green);
+	win.attach(l1);
+	win.attach(l2);
+	win.attach(l3);
+	win.attach(l4);
+	win.attach(l5);
+	win.wait_for_button();
+}
+
+int main()
+{
+	//drill();
+	//ex01();
+	//ex02();
+	ex03();
+	return 0;
+}
 
