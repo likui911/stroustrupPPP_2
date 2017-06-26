@@ -3,7 +3,7 @@
 #include "Window.h"
 using namespace Graph_lib;
 
-void drill()
+int main()
 {
 	Point tl{ 100,100 };
 	Simple_window win(tl, 600, 400, "Cavas #1");
@@ -92,73 +92,3 @@ void drill()
 	win.set_label("Canvas #12");
 	win.wait_for_button();
 }
-/*
-Draw a rectangle as a Rectangle and as a Polygon. Make the lines of the Polygon red and the lines of the Rectangle
-blue.
-*/
-void ex01()
-{
-	Simple_window win{ Point{100,100},500,400,"ex01" };
-	Polygon poly;
-	poly.add(Point{200,30});
-	poly.add(Point{ 290,100 });
-	poly.add(Point{ 240,200 });
-	poly.add(Point{ 150,300 });
-	poly.add(Point{ 100,100 });
-	poly.set_color(Color::red);
-	Rectangle rect{ Point{50,50},Point{150,200} };
-	rect.set_color(Color::blue);
-	win.attach(poly);
-	win.attach(rect);
-	win.wait_for_button();
-}
-
-/*
-Draw a 100-by-30 Rectangle and place the text “Howdy!” inside it.
-*/
-void ex02()
-{
-	Simple_window win{ Point{ 100,100 },500,400,"ex02" };
-	Rectangle rect{ Point{100,100},Point{300,300} };
-	rect.set_color(Color::black);
-	Text t{ Point{150,200},"Hello Graphics !" };
-	t.set_color(Color::red);
-	win.attach(rect);
-	win.attach(t);
-	win.wait_for_button();
-}
-
-/*
-Draw your initials 150 pixels high. Use a thick line. Draw each initial in a different color.
-My initial "L K"
-*/
-void ex03()
-{
-	Simple_window win{ Point{100,100},500,400,"Initials" };
-	Line l1{ Point{50,50},Point{50,200} };
-	l1.set_color(Color::red);
-	Line l2{ Point{50,200},Point{150,200} };
-	l2.set_color(Color::green);
-	Line l3{ Point{200,200},Point{200,50} };
-	l3.set_color(Color::blue);
-	Line l4{ Point{200,125},Point{300,50} };
-	l4.set_color(Color::dark_yellow);
-	Line l5{ Point{200,125},Point{300,200} };
-	l5.set_color(Color::dark_green);
-	win.attach(l1);
-	win.attach(l2);
-	win.attach(l3);
-	win.attach(l4);
-	win.attach(l5);
-	win.wait_for_button();
-}
-
-int main()
-{
-	//drill();
-	//ex01();
-	//ex02();
-	ex03();
-	return 0;
-}
-
