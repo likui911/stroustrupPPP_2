@@ -11,7 +11,8 @@
                 "path": [
                     "/usr/include"
                 ]
-            }
+            },
+            "intelliSenseMode": "clang-x64"
         },
         {
             "name": "Linux",
@@ -24,7 +25,8 @@
                 "path": [
                     "/usr/include"
                 ]
-            }
+            },
+            "intelliSenseMode": "clang-x64"
         },
         {
             "name": "Win32",
@@ -37,7 +39,8 @@
                 "path": [
                     "C:/mingw-w64/x86_64-w64-mingw32/include"
                 ]
-            }
+            },
+            "intelliSenseMode": "msvc-x64"
         }
     ]
 }
