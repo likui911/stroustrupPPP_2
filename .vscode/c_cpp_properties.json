@@ -9,7 +9,8 @@
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": "",
                 "path": [
-                    "/usr/include"
+                    "/usr/include",
+                    "${workspaceRoot}"
                 ]
             },
             "intelliSenseMode": "clang-x64"
@@ -23,7 +24,8 @@
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": "",
                 "path": [
-                    "/usr/include"
+                    "/usr/include",
+                    "${workspaceRoot}"
                 ]
             },
             "intelliSenseMode": "clang-x64"
@@ -37,10 +39,12 @@
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": "",
                 "path": [
-                    "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.10.25017/include"
+                    "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.10.25017/include",
+                    "${workspaceRoot}"
                 ]
             },
             "intelliSenseMode": "msvc-x64"
         }
-    ]
+    ],
+    "version": 2
 }
