@@ -47,7 +47,3 @@ Int operator+(const Int &a, const Int &b)
 {
     return Int(a.getValue() + b.getValue());
 }
-int main()
-{
-    return 0;
-}
