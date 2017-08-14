@@ -23,7 +23,7 @@ class Int
         return *this;
     }
 
-    int getValue() { return value; }
+    int getValue() const { return value; }
     void setValue(int i) { value = i; }
 
   private:
@@ -31,7 +31,7 @@ class Int
 };
 ostream &operator<<(ostream &os, Int i)
 {
-    os << i.Value();
+    os << i.getValue();
     return os;
 }
 
@@ -46,4 +46,8 @@ istream &operator>>(istream &is, Int i)
 Int operator+(const Int &a, const Int &b)
 {
     return Int(a.getValue() + b.getValue());
+}
+int main()
+{
+    return 0;
 }
