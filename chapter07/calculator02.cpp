@@ -162,12 +162,10 @@ void Token_stream::ignore(char c)
 	full = false;
 
 	char ch;
-<<<<<<< HEAD
 	if (!cin) //if cin's state is not io_base::good ,clear it.
 		cin.clear();
 	while (cin >> ch)
 		if (ch == c)
-=======
 	if (!cin.good())
 	{
 		cin.clear();
@@ -175,7 +173,6 @@ void Token_stream::ignore(char c)
 	while (cin>>ch)
 	{
 		if (ch == c||ch=='\n')
->>>>>>> 833c88356911a345014dfed98a7ab250109cf716
 			return;
 	}
 }
