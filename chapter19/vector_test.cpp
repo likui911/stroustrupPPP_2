@@ -2,17 +2,47 @@
 #include <iostream>
 using namespace std;
 
-
-vector<int> make_vec()
+void test_iterator()
 {
-	vector<int> res{1,2,3,4,5,6,7,8,9,0};
-	//这里按理说应该调用vector(vector&&)移动构造
-	return res;
+	vector<int> vec{1, 2, 3, 4, 5, 6, 7, 8, 9};
+	for (vector<int>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
+	{
+		*iter *= 2;
+		std::cout << *iter << "  ";
+	}
+	std::cout << std::endl;
+
+	for (vector<int>::reverse_iterator iter = vec.rbegin(); iter != vec.rend(); ++iter)
+	{
+		*iter *= 2;
+		std::cout << *iter << "  ";
+	}
+	std::cout << std::endl;
+
+	vector<int> const_vec{1, 2, 3, 4, 5, 6, 7, 8, 9};
+	for (vector<int>::const_iterator iter = const_vec.cbegin(); iter != const_vec.cend(); ++iter)
+	{
+		std::cout << *iter << "  ";
+	}
+	std::cout << std::endl;
+
+	for (vector<int>::const_reverse_iterator iter = vec.crbegin(); iter != vec.crend(); ++iter)
+	{
+		std::cout << *iter << "  ";
+	}
+	std::cout << std::endl;
+
+	vector<int> vec1(vec.begin(),vec.end());
+	for (vector<int>::iterator iter = vec1.begin(); iter != vec1.end(); ++iter)
+	{
+		std::cout << *iter << "  ";
+	}
+	std::cout << std::endl;
 }
 
 int main()
 {
-	std::cout<<make_vec().size()<<std::endl;
+	test_iterator();
 
 	return 0;
 }
