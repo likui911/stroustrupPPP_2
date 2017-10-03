@@ -1,11 +1,11 @@
-//#include "vector.h"
-#include <vector>
+#include "vector.h"
+#include <utility>
 #include <iostream>
 using namespace std;
 
 void test_iterator()
 {
-	vector<int> vec{1, 2, 3, 4, 5, 6, 7, 8, 9};
+	vector<int> vec{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	for (vector<int>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
 	{
 		*iter *= 2;
@@ -20,7 +20,7 @@ void test_iterator()
 	}
 	std::cout << std::endl;
 
-	vector<int> const_vec{1, 2, 3, 4, 5, 6, 7, 8, 9};
+	vector<int> const_vec{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	for (vector<int>::const_iterator iter = const_vec.cbegin(); iter != const_vec.cend(); ++iter)
 	{
 		std::cout << *iter << "  ";
@@ -43,7 +43,7 @@ void test_iterator()
 
 void test_assign()
 {
-	vector<int> vec{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	vector<int> vec{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 	vector<int> vec1(100);
 	vector<int> vec2;
 	vec1.assign(vec.begin(), vec.end());
@@ -57,51 +57,87 @@ void test_assign()
 	cout << "vec3: " << vec3.size() << " - " << vec3.capacity() << endl;
 	cout << "vec4: " << vec4.size() << " - " << vec4.capacity() << endl;
 	vector<int> vec5;
-	vec5.assign({1, 2, 3, 4, 5, 6, 7, 8, 9, 0});
+	vec5.assign({ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 });
 	cout << "vec5: " << vec5.size() << " - " << vec5.capacity() << endl;
 }
 
 void test_insert()
 {
-	vector<int> vec{1, 2, 3, 4, 5, 6};
+	vector<int> vec{ 1, 2, 3, 4, 5, 6 };
 	vec.insert(vec.end(), 9);
 	for (int i : vec)
 	{
 		cout << i << " ";
 	}
-	cout<<endl;
+	cout << endl;
 
-	vector<int> vec1{1, 2, 3, 4, 5, 6,7,8};
+	vector<int> vec1{ 1, 2, 3, 4, 5, 6, 7, 8 };
 	vec1.insert(vec1.begin() + 1, 10, 9);
 	for (int i : vec1)
 	{
 		cout << i << " ";
 	}
-	cout<<endl;
+	cout << endl;
+
+	int arr[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	vector<int> vec2;
+	auto iter2 = vec2.insert(vec2.begin(), arr, arr + 9);
+	cout << *iter2 << endl;
+	for (auto i : vec2)
+	{
+		cout << i << " ";
+	}
+	cout << endl;
+
+	vector<int> vec3;
+	auto iter3 = vec3.insert(vec3.begin(), { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
+	cout << *iter3 << endl;
+	for (auto i : vec3)
+	{
+		cout << i << " ";
+	}
+	cout << endl;
 }
 
 void test_erase()
 {
-	vector<int> vec{0,1,2,3,4,5,6,7,8,9};
-	auto iter=vec.erase(vec.begin()+1);
-	cout<<*iter<<endl;
-	for(auto i:vec)
+	vector<int> vec{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	auto iter = vec.erase(vec.begin() + 1);
+	cout << *iter << endl;
+	for (auto i : vec)
 	{
-		cout<<i<<" ";
+		cout << i << " ";
 	}
-	cout<<endl;
-	auto iter1=vec.erase(vec.begin()+1,vec.begin()+3);
-	cout<<*iter1<<endl;
-	for(auto i:vec)
+	cout << endl;
+	auto iter1 = vec.erase(vec.begin() + 1, vec.begin() + 3);
+	cout << *iter1 << endl;
+	for (auto i : vec)
 	{
-		cout<<i<<" ";
+		cout << i << " ";
 	}
-	cout<<endl;
+	cout << endl;
 }
+
+void test_emplace()
+{
+	vector<int> vec{ 1,2,3,4,5 };
+	vec.emplace(vec.begin()+1,6);
+	for (auto i : vec)
+	{
+		cout << i << " ";
+	}
+	cout << endl;
+}
+
 
 int main()
 {
-	//test_insert();
-	test_erase();
+	//test_emplace();
+	vector<int> a{1,2,3,4};
+	vector<int> b{2};
+	if(b>a)
+	{
+		cout<<"b>a"<<endl;
+	}
 	return 0;
 }

@@ -1,6 +1,7 @@
 #include <memory>
 #include <iterator>
-#include <iostream>
+#include <initializer_list>
+
 #ifndef LK_VECTOR
 #define LK_VECTOR
 
@@ -45,9 +46,9 @@ class vector
 	reverse_iterator rend();
 	const_reverse_iterator crend() const;
 
-	size_type size() { return sz; }
+	size_type size() const { return sz; }
 	void resize(size_type n, const value_type &val = value_type());
-	size_type capacity() { return space; }
+	size_type capacity() const { return space; }
 	bool empty() const { return sz == 0; };
 	void reserve(size_type n);
 	void shrink_to_fit();
@@ -80,8 +81,8 @@ class vector
 	iterator insert(const_iterator position, size_type n, const value_type &val);
 	template <class InputIterator>
 	iterator insert(const_iterator position, InputIterator first, InputIterator last);
-	// iterator insert (const_iterator position, value_type&& val);
-	// iterator insert (const_iterator position, initializer_list<value_type> il);
+	iterator insert(const_iterator position, value_type &&val);
+	iterator insert(const_iterator position, initializer_list<value_type> il);
 
 	iterator erase(const_iterator position);
 	iterator erase(const_iterator first, const_iterator last);
@@ -89,13 +90,13 @@ class vector
 	void swap(vector &x);
 	void clear();
 
-	// template <class... Args>
-	// iterator emplace(const_iterator position, Args &&... args);
+	template <class... Args>
+	iterator emplace(const_iterator position, Args &&... args);
 
-	// template <class... Args>
-	// void emplace_back(Args &&... args);
+	template <class... Args>
+	void emplace_back(Args &&... args);
 
-	// allocator_type get_allocator() const;
+	allocator_type get_allocator() const { return alloc; }
 
   private:
 	A alloc;
@@ -104,29 +105,113 @@ class vector
 	size_type space;
 };
 
-//relational operators
-// template <class T, class Alloc>
-// bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+template <typename value_type, typename A>
+bool operator==(const vector<value_type, A> &lhs, const vector<value_type, A> &rhs)
+{
+	if (lhs.size() != rhs.size())
+		return false;
 
-// template <class T, class Alloc>
-// bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+	for (int i = 0; i < lhs.size(); ++i)
+	{
+		if (lhs[i] != rhs[i])
+		{
+			return false;
+		}
+	}
+	return true;
+}
 
-// template <class T, class Alloc>
-// bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+template <typename value_type, typename A>
+bool operator!=(const vector<value_type, A> &lhs, const vector<value_type, A> &rhs)
+{
+	if (lhs.size() != rhs.size())
+		return true;
 
-// template <class T, class Alloc>
-// bool operator<=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+	for (int i = 0; i < lhs.size(); ++i)
+	{
+		if (lhs[i] != rhs[i])
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
-// template <class T, class Alloc>
-// bool operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+template <typename value_type, typename A>
+bool operator<(const vector<value_type, A> &lhs, const vector<value_type, A> &rhs)
+{
+	typename vector<value_type, A>::size_type
+		count = lhs.size() >= rhs.size() ? rhs.size() : lhs.size();
 
-// template <class T, class Alloc>
-// bool operator>=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+	for (typename vector<value_type, A>::size_type i = 0; i < count; ++i)
+	{
+		if (lhs[i] != rhs[i])
+		{
+			return lhs[i] < rhs[i];
+		}
+	}
+	return lhs.size() < rhs.size();
+}
 
-// template <class T, class Alloc>
-// void swap(vector<T, Alloc> &x, vector<T, Alloc> &y);
+template <typename value_type, typename A>
+bool operator<=(const vector<value_type, A> &lhs, const vector<value_type, A> &rhs)
+{
+	typename vector<value_type, A>::size_type
+		count = lhs.size() >= rhs.size() ? rhs.size() : lhs.size();
 
-//implements
+	for (typename vector<value_type, A>::size_type i = 0; i < count; ++i)
+	{
+		if (lhs[i] != rhs[i])
+		{
+			return lhs[i] < rhs[i];
+		}
+	}
+	return lhs.size() <= rhs.size();
+}
+
+template <typename value_type, typename A>
+bool operator>(const vector<value_type, A> &lhs, const vector<value_type, A> &rhs)
+{
+	typename vector<value_type, A>::size_type
+		count = lhs.size() >= rhs.size() ? rhs.size() : lhs.size();
+
+	for (typename vector<value_type, A>::size_type i = 0; i < count; ++i)
+	{
+		if (lhs[i] != rhs[i])
+		{
+			return lhs[i] > rhs[i];
+		}
+	}
+	return lhs.size() > rhs.size();
+}
+
+template <typename value_type, typename A>
+bool operator>=(const vector<value_type, A> &lhs, const vector<value_type, A> &rhs)
+{
+	typename vector<value_type, A>::size_type
+		count = lhs.size() >= rhs.size() ? rhs.size() : lhs.size();
+
+	for (typename vector<value_type, A>::size_type i = 0; i < count; ++i)
+	{
+		if (lhs[i] != rhs[i])
+		{
+			return lhs[i] > rhs[i];
+		}
+	}
+	return lhs.size() >= rhs.size();
+}
+
+template <typename value_type, typename A>
+void swap(vector<value_type, A> &x, vector<value_type, A> &y)
+{
+	if (x != y)
+	{
+		vector<value_type, A> temp = x;
+		x = y;
+		y = temp;
+	}
+}
+
 template <typename value_type, typename A>
 vector<value_type, A>::vector(initializer_list<value_type> lst)
 {
@@ -476,14 +561,7 @@ void vector<T, A>::assign(initializer_list<value_type> il)
 template <typename value_type, typename A>
 void vector<value_type, A>::push_back(const value_type &val)
 {
-	if (sz == 0)
-	{
-		reserve(8);
-	}
-	if (sz == space)
-	{
-		reserve(2 * sz);
-	}
+	reserve(size() == 0 ? 8 : 2 * size());
 	alloc.construct(&elem[sz], val);
 	sz++;
 }
@@ -491,6 +569,9 @@ void vector<value_type, A>::push_back(const value_type &val)
 template <typename value_type, typename A>
 void vector<value_type, A>::push_back(value_type &&val)
 {
+	reserve(size() == 0 ? 8 : 2 * size());
+	alloc.construct(&elem[sz], std::move(val));
+	sz++;
 }
 
 template <typename value_type, typename A>
@@ -546,7 +627,65 @@ template <class InputIterator>
 typename vector<value_type, A>::iterator
 vector<value_type, A>::insert(const_iterator position, InputIterator first, InputIterator last)
 {
-	//TODO
+	int index = position - elem;
+	int n = last - first;
+	if (size() + n >= capacity())
+		reserve(size() == 0 ? n : 2 * size() + n);
+	sz += n;
+
+	iterator pp = begin() + index;
+	for (int i = size() - 1; i >= index + n; --i)
+	{
+		alloc.construct(&elem[i], elem[i - n]);
+	}
+
+	for (int i = index; first != last; ++i, ++first)
+	{
+		elem[i] = *first;
+	}
+	return pp;
+}
+
+template <typename value_type, typename A>
+typename vector<value_type, A>::iterator
+vector<value_type, A>::insert(const_iterator position, value_type &&val)
+{
+	int index = position - begin();
+	if (size() == capacity())
+		reserve(size() == 0 ? 8 : 2 * size());
+
+	alloc.construct(elem + sz, back());
+	++sz;
+	iterator pp = begin() + index;
+	for (auto pos = end() - 1; pos != pp; --pos)
+	{
+		*pos = *(pos - 1);
+	}
+	*(begin() + index) = std::move(val);
+	return pp;
+}
+
+template <typename value_type, typename A>
+typename vector<value_type, A>::iterator
+vector<value_type, A>::insert(const_iterator position, initializer_list<value_type> il)
+{
+	int index = position - elem;
+	int n = il.size();
+	if (size() + n >= capacity())
+		reserve(size() == 0 ? n : 2 * size() + n);
+	sz += n;
+	iterator pp = begin() + index;
+	for (int i = size() - 1; i >= index + n; --i)
+	{
+		alloc.construct(&elem[i], elem[i - n]);
+	}
+
+	const value_type *iter = il.begin();
+	for (int i = index; iter != il.end(); ++i, ++iter)
+	{
+		elem[i] = *iter;
+	}
+	return pp;
 }
 
 template <typename value_type, typename A>
@@ -612,6 +751,37 @@ void vector<value_type, A>::clear()
 		alloc.destroy(&elem[i]);
 	}
 	sz = 0;
+}
+
+template <typename value_type, typename A>
+template <class... Args>
+void vector<value_type, A>::emplace_back(Args &&... args)
+{
+	reserve(size() == 0 ? 8 : 2 * size());
+
+	alloc.construct(&elem[sz], back());
+	elem[sz] = std::move(std::forward<value_type>(args)...);
+	sz++;
+}
+
+template <typename value_type, typename A>
+template <class... Args>
+typename vector<value_type, A>::iterator
+vector<value_type, A>::emplace(const_iterator position, Args &&... args)
+{
+	int index = position - begin();
+	if (size() == capacity())
+		reserve(size() == 0 ? 8 : 2 * size());
+
+	alloc.construct(elem + sz, back());
+	++sz;
+	iterator pp = begin() + index;
+	for (auto pos = end() - 1; pos != pp; --pos)
+	{
+		*pos = *(pos - 1);
+	}
+	*(begin() + index) = std::move(std::forward<value_type>(args)...);
+	return pp;
 }
 
 #endif
