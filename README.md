@@ -1,4 +1,4 @@
-##Exercises from "Programming -- Principles and Practice Using C++ (Second Edition)" by Stroustrup
+Exercises from "Programming -- Principles and Practice Using C++ (Second Edition)" by Stroustrup
 
 ==============
 
