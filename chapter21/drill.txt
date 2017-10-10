@@ -1,0 +1,10 @@
+program 556  102.3
+principles 669 10.3
+second 598 3.69
+strous 365 369.3
+bjame 96 45.6
+pgram 556  102.3
+princes 669 10.3
+secd 598 3.69
+strs 365 369.3
+bja 96 45.6
