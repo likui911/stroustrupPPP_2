@@ -14,11 +14,12 @@ How much do you think they would have resembled each other if you had not known 
 
 using namespace std;
 
-template <class ForwardIterator, class T>
-bool binary_search(ForwardIterator first, ForwardIterator last, const T &val)
+template <class Iterator, class T>
+bool binary_search(Iterator first, Iterator last, const T &val)
 {
-    typename iterator_traits<ForwardIterator>::difference_type count = distance(first, last);
-    ForwardIterator mid = first + count / 2;
+    typename iterator_traits<Iterator>::difference_type count = distance(first, last);
+    Iterator mid = first;
+    std::advance(mid, count / 2);
 
     if (first == last)
         return false;
@@ -26,7 +27,10 @@ bool binary_search(ForwardIterator first, ForwardIterator last, const T &val)
     if (val < *mid)
         return binary_search(first, mid, val);
     else if (val > *mid)
-        return binary_search(mid + 1, last, val);
+    {
+        std::advance(mid, 1);
+        return binary_search(mid, last, val);
+    }
 
     return true;
 }
@@ -35,6 +39,23 @@ int main()
 {
     vector<int> vi{1, 3, 5, 7, 9, 11, 15, 19};
     if (binary_search(vi.begin(), vi.end(), 8))
+    {
+        cout << "found" << endl;
+    }
+    else
+    {
+        cout << "not found" << endl;
+    }
+    list<string> ls;
+    string s1{"ahello"};
+    string s2{"bgood"};
+    string s3{"cmorning"};
+    string s4{"djack"};
+    ls.push_back(s1);
+    ls.push_back(s2);
+    ls.push_back(s3);
+    ls.push_back(s4);
+    if (binary_search(ls.begin(), ls.end(), string("bgood")))
     {
         cout << "found" << endl;
     }
