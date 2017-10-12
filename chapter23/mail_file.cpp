@@ -41,21 +41,45 @@ string find_subject(const Message *m);
 //             implements
 ////////////////////////////////////////////////////////////////////
 
+Mail_file::Mail_file(const string &n)
+{
+    ifstream ifs{n};
+    if (!ifs)
+    {
+        cerr << "no " << n << "\n";
+        exit(1);
+    }
+    for (string s; getline(ifs, s);)
+    {
+        lines.push_back(s);
+    }
+
+    auto first = lines.begin();
+    for (auto p = lines.begin(); p != lines.end(); ++p)
+    {
+        if (*p == "––––")
+        { 
+            m.push_back(Message(first, p));
+            first = p + 1;
+        }
+    }
+}
+
 int main()
 {
-    Mail_file mfile{"my–mail–file.txt"}; // initialize mfile from a file
+    Mail_file mfile{"./chapter23/mymailfile.txt"}; // initialize mfile from a file
     // first gather messages from each sender together in a multimap:
-    multimap<string, const Message *> sender;
-    for (const auto &m : mfile)
-    {
-        string s;
-        if (find_from_addr(&m, s))
-            sender.insert(make_pair(s, &m));
-    }
-    // now iterate through the multimap
-    // and extract the subjects of John Doe’s messages:
-    auto pp = sender.equal_range("John Doe <jdoe@machine.example>");
-    for (auto p = pp.first; p != pp.second; ++p)
-        cout << find_subject(p->second) << '\n';
+    // multimap<string, const Message *> sender;
+    // for (const auto &m : mfile)
+    // {
+    //     string s;
+    //     if (find_from_addr(&m, s))
+    //         sender.insert(make_pair(s, &m));
+    // }
+    // // now iterate through the multimap
+    // // and extract the subjects of John Doe’s messages:
+    // auto pp = sender.equal_range("John Doe <jdoe@machine.example>");
+    // for (auto p = pp.first; p != pp.second; ++p)
+    //     cout << find_subject(p->second) << '\n';
     return 0;
 }
