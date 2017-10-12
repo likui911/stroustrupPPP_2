@@ -1,9 +1,3 @@
-/*
-1. 
-
-2. 
-*/
-
 #include <string>
 #include <vector>
 #include <fstream>
