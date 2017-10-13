@@ -22,60 +22,88 @@ using Mess_iter = vector<Message>::const_iterator;
 struct Mail_file
 { // a Mail_file holds all the lines from a file
     // and simplifies access to messages
-    string name;                // file name
-    vector<string> lines;       // the lines in order
-    vector<Message> m;          // Messages in order
-    Mail_file(const string &n); // read file n into lines
+    string name;          // file name
+    vector<string> lines; // the lines in order
+    vector<Message> m;    // Messages in order
+    Mail_file(const string &n)
+    {
+        ifstream ifs{n};
+        if (!ifs)
+        {
+            cerr << "no " << n << "\n";
+            exit(1);
+        }
+        for (string s; getline(ifs, s);)
+        {
+            lines.push_back(s);
+        }
+
+        auto first = lines.begin();
+        for (auto p = lines.begin(); p != lines.end(); ++p)
+        {
+            if (*p == "----")
+            {
+                m.push_back(Message(first, p));
+                first = p + 1;
+            }
+        }
+    }
+
     Mess_iter begin() const { return m.begin(); }
     Mess_iter end() const { return m.end(); }
 };
 
+int is_prefix(const string &s, const string &p)
+// is p the first part of s?
+{
+    int n = p.size();
+    if (string(s, 0, n) == p)
+        return n;
+    return 0;
+}
+
 // find the name of the sender in a Message;
 // return true if found
 // if found, place the sender’s name in s:
-bool find_from_addr(const Message *m, string &s);
-// return the subject of the Message, if any, otherwise "":
-string find_subject(const Message *m);
-
-/////////////////////////////////////////////////////////////////////
-//             implements
-////////////////////////////////////////////////////////////////////
-
-Mail_file::Mail_file(const string &n)
+bool find_from_addr(const Message *m, string &s)
 {
-    ifstream ifs{n};
-    if (!ifs)
+    for (const auto &x : *m)
     {
-        cerr << "no " << n << "\n";
-        exit(1);
-    }
-    for (string s; getline(ifs, s);)
-    {
-        lines.push_back(s);
-    }
-
-    auto first = lines.begin();
-    for (auto p = lines.begin(); p != lines.end(); ++p)
-    {
-        if (*p == "----")
+        if (int n = is_prefix(x, "From: "))
         {
-            m.push_back(Message(first, p));
-            first = p + 1;
+            s = string(x, n);
+            return true;
         }
     }
+    return false;
+}
+// return the subject of the Message, if any, otherwise "":
+string find_subject(const Message *m)
+{
+    for (const auto &x : *m)
+        if (int n = is_prefix(x, "Subject: "))
+            return string(x, n);
+    return "";
 }
 
 int main()
 {
     Mail_file mfile{"./chapter23/mymailfile.txt"}; // initialize mfile from a file
 
-   for(auto mess:mfile.m)
-   {
-       for(auto iter=mess.begin();iter!=mess.end();++iter)
-       {
-           cout<<*iter<<endl;
-       }
-       cout<<"----"<<endl;
-   }
+    multimap<string, const Message *> sender;
+
+    for (auto const &m : mfile)
+    {
+        string s;
+        if (find_from_addr(&m, s))
+            sender.insert(make_pair(s, &m));
+    }
+
+    // now iterate through the multimap
+    // and extract the subjects of John Doe’s messages:
+    auto pp = sender.equal_range("John Doe <jdoe@machine.example>");
+    for (auto p = pp.first; p != pp.second; ++p)
+        cout << find_subject(p->second) << '\n';
+
     return 0;
 }
