@@ -57,8 +57,8 @@ Mail_file::Mail_file(const string &n)
     auto first = lines.begin();
     for (auto p = lines.begin(); p != lines.end(); ++p)
     {
-        if (*p == "––––")
-        { 
+        if (*p == "----")
+        {
             m.push_back(Message(first, p));
             first = p + 1;
         }
@@ -68,18 +68,14 @@ Mail_file::Mail_file(const string &n)
 int main()
 {
     Mail_file mfile{"./chapter23/mymailfile.txt"}; // initialize mfile from a file
-    // first gather messages from each sender together in a multimap:
-    // multimap<string, const Message *> sender;
-    // for (const auto &m : mfile)
-    // {
-    //     string s;
-    //     if (find_from_addr(&m, s))
-    //         sender.insert(make_pair(s, &m));
-    // }
-    // // now iterate through the multimap
-    // // and extract the subjects of John Doe’s messages:
-    // auto pp = sender.equal_range("John Doe <jdoe@machine.example>");
-    // for (auto p = pp.first; p != pp.second; ++p)
-    //     cout << find_subject(p->second) << '\n';
+
+   for(auto mess:mfile.m)
+   {
+       for(auto iter=mess.begin();iter!=mess.end();++iter)
+       {
+           cout<<*iter<<endl;
+       }
+       cout<<"----"<<endl;
+   }
     return 0;
 }
